@@ -87,6 +87,9 @@ def process(arg, prs):
     else:
         df = pd.read_excel(arg.excel_file,header=None)
     
+    num_columns = df.shape[1]
+    num_rows = df.shape[0]
+
     x = to_x = arg.row_from
     y = to_y = arg.col_from
     if arg.row_to is not None:
@@ -94,15 +97,31 @@ def process(arg, prs):
     if arg.col_to is not None:
         to_y = arg.col_to
 
-
+    def convert(val):
+        return eval(arg.py_code, {"re": re, "math": math, "arg": val})
+            
     for pos_x in range(x, to_x+1):
-        for pos_y in range(y, to_y+1):
-            cell = df.iat[pos_y, pos_x]
-            if isinstance(cell,str):
-                s_val = str(cell)
 
-                r_val = eval(arg.py_code, {"re": re, "math": math, "arg": s_val})
-                df.iat[pos_y, pos_x] = str(r_val)
+        if pos_x >= num_columns:
+            continue 
+
+        for pos_y in range(y, to_y+1):
+
+            if pos_y >= num_rows:
+                continue 
+
+            cell = df.iat[pos_y, pos_x]
+            s_val = ""
+            if isinstance(cell,str):
+                s_val = str(cell).strip()
+            elif isinstance(cell, int) or isinstance(cell, pd.StringDtype):
+                s_val = str(cell)
+            elif isinstance(cell, float):
+                if not math.isinf(cell):
+                    s_val = str(cell)
+
+            r_val = convert(s_val)
+            df.iat[pos_y, pos_x] = str(r_val)
 
     if arg.excel_tab is not None:
         df.to_excel(arg.excel_file, sheet_name=arg.excel_tab, header=None)
