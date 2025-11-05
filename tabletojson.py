@@ -54,7 +54,16 @@ python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.jso
                        type=int, 
                        dest='col_from',
                        help='starting column of range')
-    
+
+    parse.add_argument('--filter', 
+                       '-f', 
+                       required=False,
+                       default="",
+                       type=str,
+                       dest='use_columns', 
+                       help='filter a subset of column (comma delimited list of column names)')
+
+
     return parse.parse_args(), parse
 
 def err(msg):
@@ -67,6 +76,8 @@ def check_vals(arg):
 
     if arg.row_from < 0:
         err("non negative --row_from expected")
+
+    return list(map(lambda arg : arg.strip(), arg.use_columns.split(",")))
 
 def parse_header(df, x, y):
     out_header = []
@@ -103,7 +114,7 @@ def parse_header(df, x, y):
     return out_header
 
 def process(arg, prs):
-    check_vals(arg)
+    filter_columns = check_vals(arg)
 
     if arg.excel_tab is not None:
         df = pd.read_excel(arg.excel_file, sheet_name=arg.excel_tab, header=None)
@@ -111,6 +122,7 @@ def process(arg, prs):
         df = pd.read_excel(arg.excel_file,header=None)
 
     header_names = parse_header(df, arg.row_from, arg.col_from)
+    print(f"table headers: {header_names}")
 
     num_rows = df.shape[0]
 
@@ -132,13 +144,18 @@ def process(arg, prs):
                 if not math.isinf(cell):
                     s_val = str(cell)
 
+            if len(filter_columns) != 0 and not header_names[x_cur] in filter_columns:
+                print(f"skippping '{header_names[x_cur]}' {filter_columns}")
+                continue
+
             if s_val != "":
                 all_empty_vals = False
 
             row_entry[ header_names[x_cur] ] = s_val
 
         if all_empty_vals:
-                break 
+                break
+ 
         json_data.append(row_entry)
         
         y += 1

@@ -16,22 +16,20 @@ pip3 install -r requirements.txt
 
 ## extracting excel table to json
 
-Example 
-
-```code
-python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json
-```
 
 Usage:
 
 ```code
 
-usage: tabletojson.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json OUT_FILE --row_from ROW_FROM --col_from
-                      COL_FROM
+usage: tabletojson.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json
+                      OUT_FILE --row_from ROW_FROM --col_from COL_FROM
+                      [--filter USE_COLUMNS]
 
-Extract a json table from given position in excel file into json file The initial psition is the start of he header
-line. All data lines are taken, until end of excel, or until the first line that does not have any values Example:
-python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json
+Extract a json table from given position in excel file into json file The
+initial psition is the start of he header line. All data lines are taken,
+until end of excel, or until the first line that does not have any values
+Example: python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1
+--json=out.json
 
 options:
   -h, --help            show this help message and exit
@@ -45,7 +43,13 @@ options:
                         starting row of range
   --col_from COL_FROM, -y COL_FROM
                         starting column of range
+  --filter USE_COLUMNS, -f USE_COLUMNS
+                        filter a subset of column (comma delimited list of
+                        column names)
+
 ```
+
+Example 
 
 for an input table of the following form
 
@@ -77,6 +81,12 @@ for an input table of the following form
     </tr>
 </table>
 
+This command 
+
+```code
+python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json
+```
+
 we will get a json of the following form
 
 ```code
@@ -100,6 +110,37 @@ we will get a json of the following form
     {
         "a-col": "e",
         "b-col": "f",
+        "c-col": "g"
+    }
+]
+```
+
+The following command will filter a subset of the columns a-col and c-col
+
+```code
+python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json --filter=a-col,c-col
+```
+
+and result in 
+
+
+```code
+
+[
+    {
+        "a-col": "1",
+        "c-col": "3"
+    },
+    {
+        "a-col": "a",
+        "c-col": "c"
+    },
+    {
+        "a-col": "4",
+        "c-col": "6"
+    },
+    {
+        "a-col": "e",
         "c-col": "g"
     }
 ]
