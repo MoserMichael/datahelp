@@ -15,7 +15,12 @@ All data lines are taken, until end of excel, or until the first line that does 
 
 Example:
 
-python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json
+python3 excel2json.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json
+
+Extract the table where the header line starts from column 3 (one is the first column) and row 1 (one is the first column) 
+
+python3 excel2json.py --excel=tbl.xlsx  --json=out.json
+
 
 '''
 
@@ -46,14 +51,14 @@ python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.jso
                        required=True,
                        type=int, 
                        dest='row_from',
-                       help='starting row of range')
+                       help='starting row of range (one based)')
 
     parse.add_argument('--col_from', 
                        '-y', 
                        required=True,
                        type=int, 
                        dest='col_from',
-                       help='starting column of range')
+                       help='starting column of range (one based)')
 
     parse.add_argument('--filter', 
                        '-f', 
@@ -67,16 +72,18 @@ python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.jso
     return parse.parse_args(), parse
 
 def err(msg):
-    print("Error: {msg}")
+    print(f"Error: {msg}")
     sys.exit(1)
 
 def check_vals(arg):
     if arg.col_from < 0:
-        err("non negative --col_from expected")
+        err("positive (greater equal to one) value for --col_from expected")
 
     if arg.row_from < 0:
-        err("non negative --row_from expected")
+        err("positive (greater equal to one) value for --row_from expected")
 
+    if arg.use_columns == "":
+        return []
     return list(map(lambda arg : arg.strip(), arg.use_columns.split(",")))
 
 def parse_header(df, x, y):
@@ -117,18 +124,18 @@ def process(arg, prs):
     filter_columns = check_vals(arg)
 
     if arg.excel_tab is not None:
-        df = pd.read_excel(arg.excel_file, sheet_name=arg.excel_tab, header=None)
+        df = pd.read_excel(arg.excel_file, sheet_name=arg.excel_tab, header=None,keep_default_na=False)
     else:
-        df = pd.read_excel(arg.excel_file,header=None)
+        df = pd.read_excel(arg.excel_file,header=None,keep_default_na=False)
 
-    header_names = parse_header(df, arg.row_from, arg.col_from)
+    header_names = parse_header(df, arg.row_from-1, arg.col_from-1)
     print(f"table headers: {header_names}")
 
     num_rows = df.shape[0]
 
     json_data = []
-    x = arg.row_from
-    y = arg.col_from + 1
+    x = arg.row_from - 1
+    y = arg.col_from
     while True:
         if y >= num_rows:
             break  
@@ -159,7 +166,6 @@ def process(arg, prs):
         json_data.append(row_entry)
         
         y += 1
-
 
         # save it
         out_data = json.dumps(json_data, indent=4)

@@ -21,7 +21,7 @@ Usage:
 
 ```code
 
-usage: tabletojson.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json
+usage: excel2json.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json
                       OUT_FILE --row_from ROW_FROM --col_from COL_FROM
                       [--filter USE_COLUMNS]
 
@@ -84,7 +84,7 @@ for an input table of the following form
 This command 
 
 ```code
-python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json
+python3 excel2json.py --excel=tbl.xlsx --col_from=4 --row_from=2 --json=out.json
 ```
 
 we will get a json of the following form
@@ -146,8 +146,28 @@ and result in
 ]
 ```
 
-## applying a python regex over a range of cells
 
+## searching for a value in all excel files in a subdirectory (and further down)
+
+```code
+
+python3 excelgrep.py --help
+
+usage: excelgrep.py [-h] --dir SEARCH_DIR [--regex REGEX_SEARCH] [--search STRING_SEARCH]
+
+Search cells in tabs of excel files (with extension .xlsx) in a given directory for a search term. Report matching lines
+
+options:
+  -h, --help            show this help message and exit
+  --dir SEARCH_DIR, -d SEARCH_DIR
+                        directory to search for excel files
+  --regex REGEX_SEARCH, -r REGEX_SEARCH
+                        Regular expression to search for
+  --search STRING_SEARCH, -s STRING_SEARCH
+                        String to search for
+```
+
+## applying a python expression over a range of cells
 
 Warning! this program uses pandas to read and write an excel workbook. 
 This works fine for excel files with data only - without formatting / scripts.
