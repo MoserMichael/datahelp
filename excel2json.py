@@ -7,8 +7,9 @@ import math
 
 def parse_cmd_line():
     usage = '''
-Extract a json table from given position in excel file
-into json file
+Extract a table from an excel file into a json file.
+The json file is an array of records, where each row stands for a record in the json.
+The row-record consists of name-value pairs, where the name is the table header and the value is the cell value for this row.
 
 The initial psition is the start of he header line.
 All data lines are taken, until end of excel, or until the first line that does not have any values

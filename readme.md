@@ -21,15 +21,15 @@ Usage:
 
 ```code
 
-usage: excel2json.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json
-                      OUT_FILE --row_from ROW_FROM --col_from COL_FROM
-                      [--filter USE_COLUMNS]
+usage: excel2json.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json OUT_FILE --row_from ROW_FROM --col_from COL_FROM
+                     [--filter USE_COLUMNS]
 
-Extract a json table from given position in excel file into json file The
-initial psition is the start of he header line. All data lines are taken,
-until end of excel, or until the first line that does not have any values
-Example: python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1
---json=out.json
+Extract a table from an excel file into a json file. The json file is an array of records, where each row stands for a record in
+the json. The row-record consists of name-value pairs, where the name is the table header and the value is the cell value for this
+row. The initial psition is the start of he header line. All data lines are taken, until end of excel, or until the first line that
+does not have any values Example: python3 excel2json.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json Extract the
+table where the header line starts from column 3 (one is the first column) and row 1 (one is the first column) python3
+excel2json.py --excel=tbl.xlsx --json=out.json
 
 options:
   -h, --help            show this help message and exit
@@ -40,13 +40,11 @@ options:
   --json OUT_FILE, -o OUT_FILE
                         output file file
   --row_from ROW_FROM, -x ROW_FROM
-                        starting row of range
+                        starting row of range (one based)
   --col_from COL_FROM, -y COL_FROM
-                        starting column of range
+                        starting column of range (one based)
   --filter USE_COLUMNS, -f USE_COLUMNS
-                        filter a subset of column (comma delimited list of
-                        column names)
-
+                        filter a subset of column (comma delimited list of column names)
 ```
 
 Example 
