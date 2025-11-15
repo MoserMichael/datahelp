@@ -79,10 +79,10 @@ def check_vals(arg):
     if not arg.col_to and not arg.row_to:
         err("either one or both of --row_to and --col_to must be defined")
 
-    if arg.col_to an arg.col_from > arg.col_to:
+    if arg.col_to and arg.col_from > arg.col_to:
         err("col_to must not be smaller than col_from")
 
-    if arg.row_to an arg.row_from > arg.row_to:
+    if arg.row_to and arg.row_from > arg.row_to:
         err("row_to must not be smaller than row_from")
 
 def process(arg, prs):

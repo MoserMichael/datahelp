@@ -14,7 +14,7 @@ pip3 install -r requirements.txt
 ```
 
 
-## extracting excel table to json
+## Extracting excel table to json
 
 
 Usage:
@@ -145,7 +145,7 @@ and result in
 ```
 
 
-## searching for a value in all excel files in a subdirectory (and further down)
+## Searching for a value in all excel files in a subdirectory (and further down)
 
 ```code
 
@@ -165,7 +165,7 @@ options:
                         String to search for
 ```
 
-## applying a python expression over a range of cells
+## Applying a python expression over a range of cells
 
 Warning! this program uses pandas to read and write an excel workbook. 
 This works fine for excel files with data only - without formatting / scripts.
@@ -176,18 +176,21 @@ Example usage
 
 ```code
 
-python3 exceleval.py --excel a.xlsx  --col_from=4 --row_from=1 --row_to=5 --py="re.sub(r'[0-9]','_', arg)"
+
+python3 excelsed.py --excel a.xlsx  --col_from=4 --row_from=1 --row_to=5 --py="re.sub(r'[0-9]','_', arg)"
 ```
 
 Help text 
 
 ````code 
-usage: exceleval.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --row_from ROW_FROM --col_from COL_FROM
-                    [--row_to ROW_TO] [--col_to COL_TO] --py PY_CODE
+python3 excelsed.py --help
 
-apply python expression on range of excel cells Allows to apply regex substitution over a bunch of excel cells The
-python code has access to packages re and math, the input value is in global variable arg Example usage: python3
-exceleval.py --excel a.xlsx --col_from=4 --row_from=1 --row_to=5 --py="re.sub(r'[0-9]','_', arg)"
+usage: excelsed.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --row_from ROW_FROM --col_from COL_FROM [--row_to ROW_TO]
+                   [--col_to COL_TO] --py PY_CODE
+
+apply python expression on range of excel cells Allows to apply regex substitution over a bunch of excel cells The python code has
+access to packages re and math, the input value is in global variable arg Example usage: python3 excelsed.py --excel a.xlsx
+--col_from=4 --row_from=1 --row_to=5 --py="re.sub(r'[0-9]','_', arg)"
 
 options:
   -h, --help            show this help message and exit
@@ -196,11 +199,11 @@ options:
   --tab EXCEL_TAB, -t EXCEL_TAB
                         tab name of excel tab
   --row_from ROW_FROM, -x ROW_FROM
-                        starting row of range
+                        starting row of range (one based)
   --col_from COL_FROM, -y COL_FROM
-                        starting column of range
-  --row_to ROW_TO       ending row of range (must have at least --row_to or --col_to)
-  --col_to COL_TO       ending row of range (must have at least --row_to or --col_to)
+                        starting column of range (one based)
+  --row_to ROW_TO       ending row of range (must have at least --row_to or --col_to) (one based)
+  --col_to COL_TO       ending row of range (must have at least --row_to or --col_to) (one based)
   --py PY_CODE, -p PY_CODE
                         python expression to transform each cell. The current cell value is in global variable arg
 ```
