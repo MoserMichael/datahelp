@@ -18,7 +18,7 @@ source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-## diffeence between two excel files
+## difference between two excel files
 
 ```code
 usage: exceldiff.py [-h] --excel1 EXCEL_FILE1 [--excel2 EXCEL_FILE2]
@@ -68,9 +68,9 @@ options:
                         filter a subset of column (comma delimited list of column names)
 ```
 
-Example 
+Example:
 
-for an input table of the following form
+For an input table of the following form
 
 <table>
     <th>
@@ -106,7 +106,7 @@ This command
 python3 excel2json.py --excel=tbl.xlsx --col_from=4 --row_from=2 --json=out.json
 ```
 
-we will get a json of the following form
+We will get a json of the following form
 
 ```code
 
@@ -140,7 +140,7 @@ The following command will filter a subset of the columns a-col and c-col
 python3 tabletojson.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json --filter=a-col,c-col
 ```
 
-and result in 
+And result in:
 
 
 ```code
@@ -188,7 +188,7 @@ options:
 
 ## Applying a python expression over a range of cells
 
-Warning! this program uses pandas to read and write an excel workbook. 
+Warning! This program uses pandas to read and write an excel workbook. 
 This works fine for excel files with data only - without formatting / scripts.
 
 Help text
