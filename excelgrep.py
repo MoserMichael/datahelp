@@ -7,9 +7,8 @@ import math
 
 def parse_cmd_line():
     usage = '''
-Search cells in tabs of excel files (with extension .xlsx) in a given directory for a search term.
-Report matching lines
-
+for all files (with extension .xlsx) in a given directory/suddirectory:
+Search all cells in all tabs  for a given search term and report matching lines
 '''
 
     parse = argparse.ArgumentParser(description=usage)

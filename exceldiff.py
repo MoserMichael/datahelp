@@ -7,10 +7,8 @@ import math
 
 def parse_cmd_line():
     usage = '''
-Compare two excel files, sheet by sheet.
-
 Ever had to modify an excel in a few places, then report back to the owner what changed?
-This script compares the sheets of the excel, and reports the cells that changed!
+This script compares all sheets of an excel file, and reports the cells that changed.
 '''
 
     parse = argparse.ArgumentParser(description=usage)
