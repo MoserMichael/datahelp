@@ -57,9 +57,9 @@ python3 excel2json.py --excel=tbl.xlsx  --json=out.json
     parse.add_argument('--col_from', 
                        '-y', 
                        required=True,
-                       type=int, 
+                       type=str, 
                        dest='col_from',
-                       help='starting column of range (one based)')
+                       help='starting column of range (one based or excel characte notation)')
 
     parse.add_argument('--filter', 
                        '-f', 
@@ -76,11 +76,27 @@ def err(msg):
     print(f"Error: {msg}")
     sys.exit(1)
 
+def excel_num_to_idx(arg):
+    res = 0
+    for ch in arg.lower():
+        if ch.isalpha() and not ch.isdigit(): 
+            res = res * 26 + (ord(ch) - ord('a') + 1)
+        else:
+            err("parameter {arg} should be all letters (excel convention for column positio) or all digits (one based offset)") 
+    return res 
+
+
 def check_vals(arg):
-    if arg.col_from < 0:
+
+    if arg.col_from.isdigit():
+        arg.col_from = int(arg.col_from)
+    else:
+        arg.col_from = excel_num_to_idx(arg.col_from)
+
+    if arg.col_from <= 0:
         err("positive (greater equal to one) value for --col_from expected")
 
-    if arg.row_from < 0:
+    if arg.row_from <= 0:
         err("positive (greater equal to one) value for --row_from expected")
 
     if arg.use_columns == "":

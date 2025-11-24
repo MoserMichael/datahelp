@@ -4,6 +4,8 @@
 
 Some utility scripts for working with excel files; [pandas](https://pandas.pydata.org/) is used for accessing excel files, with [openpyxl](https://openpyxl.readthedocs.io/en/stable/) engine.
 
+(works unexpected slowly on WSL2 but quickly on a MAC...)
+
 ## setup
 
 ```python
