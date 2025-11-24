@@ -46,7 +46,7 @@ def err(msg):
 class RegexMatcher:
     def __init__(self, regex_str):
         try:
-            print(f"regex {regex_str}")
+            #print(f"regex {regex_str}")
             self.r = re.compile(regex_str)
         except Exception as e:
             err(f"regular expression errro: {e}")
