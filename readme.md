@@ -13,6 +13,22 @@ source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
+## diffeence between two excel files
+
+```code
+usage: exceldiff.py [-h] --excel1 EXCEL_FILE1 [--excel2 EXCEL_FILE2]
+
+Compare two excel files, sheet by sheet. Ever had to modify an excel in a few places, then report back to the owner what changed?
+This script compares the sheets of the excel, and reports the cells that changed!
+
+options:
+  -h, --help            show this help message and exit
+  --excel1 EXCEL_FILE1, -f EXCEL_FILE1
+                        file name of first excel input file
+  --excel2 EXCEL_FILE2, -t EXCEL_FILE2
+                        file name of second excel input file
+
+```
 
 ## Extracting excel table to json
 

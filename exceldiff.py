@@ -65,11 +65,27 @@ def common_sheets(excel_file1, df1, excel_file2, df2):
             del name_map2[sheet_name]
 
     if len(name_map1) != 0:
-        print(f"sheets exclusive to {excel_file1} : {list(name_map1.keys())}")
+        print(f"sheets exclusive to {excel_file1} : {list(name_map1.keys())}\n")
     if len(name_map2) != 0:
-        print(f"sheets exclusive to {excel_file2} : {list(name_map2.keys())}")
+        print(f"sheets exclusive to {excel_file2} : {list(name_map2.keys())}\n")
 
     return common_sheets
+
+def row_to_excel(num):
+    temp_column = num
+    column_string = ""
+    
+    while temp_column > 0:
+        remainder = (temp_column - 1) % 26
+        
+        # Add the character corresponding to the remainder, starting from 'A'
+        column_string += chr(ord('A') + remainder)
+        
+        # Update the column number for the next iteration
+        temp_column = (temp_column - 1) // 26
+
+    # Reverse the string to get the correct column name
+    return column_string[::-1]
 
 def compare_sheet(sheet_name, sh1, sh2):
     num_columns1 = sh1.shape[1]
@@ -95,8 +111,11 @@ def compare_sheet(sheet_name, sh1, sh2):
                 diff_cells.append( (idx_x, idx_y, cell1, cell2) )
 
     # report cell differences
-    for elm in diff_cells:
-        print(f"row={elm[0]+1} col={elm[1]+1} changed from='{elm[2]}' to='{elm[3]}'")
+    if len(diff_cells) != 0:
+        print(f"Differences in sheet {sheet_name}\n")
+        for elm in diff_cells:
+            print(f"\tcell={row_to_excel(elm[0]+1)}{elm[1]+1} changed from='{elm[2]}' to='{elm[3]}'")
+        print("")
 
 
 def process(arg, excel_file1, excel_file2):
@@ -110,6 +129,6 @@ def process(arg, excel_file1, excel_file2):
 
 def main():
     arg,prs = parse_cmd_line()
-    process(arg, prs.excel_file1, prs.excel_file2)
+    process(arg, arg.excel_file1, arg.excel_file2)
 
 main()

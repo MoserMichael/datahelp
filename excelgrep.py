@@ -104,7 +104,7 @@ def search_excel(fpath, file, matcher):
 
                 print(f"{file}:{sheet_name}:{row+1}:{csv_row}")                            
 
- 
+
 
 def match_all(search_dir, matcher):
     for root, _, files in os.walk(search_dir):
