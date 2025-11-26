@@ -25,8 +25,9 @@ pip3 install -r requirements.txt
 ```code
 usage: exceldiff.py [-h] --excel1 EXCEL_FILE1 [--excel2 EXCEL_FILE2]
 
-Compare two excel files, sheet by sheet. Ever had to modify an excel in a few places, then report back to the owner what changed?
-This script compares the sheets of the excel, and reports the cells that changed!
+Ever had to modify an excel in a few places, then report back to the owner
+what changed? This script compares all sheets of an excel file, and reports
+the cells that changed.
 
 options:
   -h, --help            show this help message and exit
@@ -43,16 +44,19 @@ options:
 Usage:
 
 ```code
-
-usage: excel2json.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json OUT_FILE --row_from ROW_FROM --col_from COL_FROM
+usage: excel2json.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --json OUT_FILE
+                     --row_from ROW_FROM --col_from COL_FROM
                      [--filter USE_COLUMNS]
 
-Extract a table from an excel file into a json file. The json file is an array of records, where each row stands for a record in
-the json. The row-record consists of name-value pairs, where the name is the table header and the value is the cell value for this
-row. The initial psition is the start of he header line. All data lines are taken, until end of excel, or until the first line that
-does not have any values Example: python3 excel2json.py --excel=tbl.xlsx --col_from=3 --row_from=1 --json=out.json Extract the
-table where the header line starts from column 3 (one is the first column) and row 1 (one is the first column) python3
-excel2json.py --excel=tbl.xlsx --json=out.json
+Extract a table from an excel file into a json file. The json file is an array
+of records, where each row stands for a record in the json. The row-record
+consists of name-value pairs, where the name is the table header and the value
+is the cell value for this row. The initial position is the start of he header
+line. All data lines are taken, until end of excel, or until the first line
+that does not have any values Example: python3 excel2json.py --excel=tbl.xlsx
+--col_from=3 --row_from=1 --json=out.json Extract the table where the header
+line starts from column 3 (one is the first column) and row 1 (one is the
+first column) python3 excel2json.py --excel=tbl.xlsx --json=out.json
 
 options:
   -h, --help            show this help message and exit
@@ -65,9 +69,11 @@ options:
   --row_from ROW_FROM, -x ROW_FROM
                         starting row of range (one based)
   --col_from COL_FROM, -y COL_FROM
-                        starting column of range (one based)
+                        starting column of range (one based or excel characte
+                        notation)
   --filter USE_COLUMNS, -f USE_COLUMNS
-                        filter a subset of column (comma delimited list of column names)
+                        filter a subset of column (comma delimited list of
+                        column names)
 ```
 
 Example:
@@ -172,11 +178,11 @@ And result in:
 
 ```code
 
-python3 excelgrep.py --help
+usage: excelgrep.py [-h] --dir SEARCH_DIR [--regex REGEX_SEARCH]
+                    [--search STRING_SEARCH]
 
-usage: excelgrep.py [-h] --dir SEARCH_DIR [--regex REGEX_SEARCH] [--search STRING_SEARCH]
-
-Search cells in tabs of excel files (with extension .xlsx) in a given directory for a search term. Report matching lines
+for all files (with extension .xlsx) in a given directory/suddirectory: Search
+all cells in all tabs for a given search term and report matching lines
 
 options:
   -h, --help            show this help message and exit
@@ -186,6 +192,7 @@ options:
                         Regular expression to search for
   --search STRING_SEARCH, -s STRING_SEARCH
                         String to search for
+
 ```
 
 ## Applying a python expression over a range of cells
@@ -206,14 +213,15 @@ python3 excelsed.py --excel a.xlsx  --col_from=4 --row_from=1 --row_to=5 --py="r
 Help text 
 
 ````code 
-python3 excelsed.py --help
-
-usage: excelsed.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --row_from ROW_FROM --col_from COL_FROM [--row_to ROW_TO]
+usage: excelsed.py [-h] --excel EXCEL_FILE [--tab EXCEL_TAB] --row_from
+                   ROW_FROM --col_from COL_FROM [--row_to ROW_TO]
                    [--col_to COL_TO] --py PY_CODE
 
-apply python expression on range of excel cells Allows to apply regex substitution over a bunch of excel cells The python code has
-access to packages re and math, the input value is in global variable arg Example usage: python3 excelsed.py --excel a.xlsx
---col_from=4 --row_from=1 --row_to=5 --py="re.sub(r'[0-9]','_', arg)"
+apply python expression on range of excel cells Allows to apply regex
+substitution over a bunch of excel cells The python code has access to
+packages re and math, the input value is in global variable arg Example usage:
+python3 excelsed.py --excel a.xlsx --col_from=4 --row_from=1 --row_to=5
+--py="re.sub(r'[0-9]','_', arg)"
 
 options:
   -h, --help            show this help message and exit
@@ -225,9 +233,12 @@ options:
                         starting row of range (one based)
   --col_from COL_FROM, -y COL_FROM
                         starting column of range (one based)
-  --row_to ROW_TO       ending row of range (must have at least --row_to or --col_to) (one based)
-  --col_to COL_TO       ending row of range (must have at least --row_to or --col_to) (one based)
+  --row_to ROW_TO       ending row of range (must have at least --row_to or
+                        --col_to) (one based)
+  --col_to COL_TO       ending row of range (must have at least --row_to or
+                        --col_to) (one based)
   --py PY_CODE, -p PY_CODE
-                        python expression to transform each cell. The current cell value is in global variable arg
+                        python expression to transform each cell. The current
+                        cell value is in global variable arg
 ```
 
